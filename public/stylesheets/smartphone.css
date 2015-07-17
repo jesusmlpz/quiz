@@ -14,4 +14,13 @@ body {
 }
 footer, input {
 	font-size: large;
-}}
+}
+#foto {
+	float:none;
+	padding: 0px;
+}
+#personal {
+	float:none;
+	margin:0px;
+	font-size: large;
+}

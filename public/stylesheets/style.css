@@ -24,10 +24,37 @@ header, nav, section {
 	background: #eee;
 	text-align: center;
 }
+section {
+	min-height: 200px;
+}
 footer {
 	background: #eee;
 	text-align: center;
 }
 nav span {
 	margin: 0px 10px 0px 0px;
+}
+dt {
+	font-style: italic;
+	font-weight: bold;
+}
+#ficha-credito {
+	width: 80%;
+	min-height: 50px;
+	padding: 0px;
+	margin: 10px auto;
+}
+#foto {
+	float: left;/*
+	width: 10%;*/
+	text-align: center;
+	min-height: 50px;
+}
+#personal {
+	float: left;
+	background-color: #EEA;/*
+	width: 80%;*/
+	padding-left: 10px;
+	text-align: left;
+	min-height: 50px;
 }
