@@ -20,6 +20,15 @@ body {
 section > div {
 	padding: 20px;
 }
+
+section > table {
+	margin-left: auto;
+    margin-right: auto;
+    border: thin solid gray;
+    border-radius: 10px;
+    padding: 5px;
+}
+
 header, nav, section {
 	background: #eee;
 	text-align: center;
@@ -39,7 +48,8 @@ dt {
 	font-weight: bold;
 }
 #ficha-credito {
-	width: 80%;
+	width: 40%;
+	min-width: 250px;
 	min-height: 50px;
 	padding: 0px;
 	margin: 10px auto;
