@@ -22,7 +22,17 @@ exports.load = function(req, res, next, quizId) {
 // GET /quizes
 
 exports.index = function(req, res) {
-	models.Quiz.findAll().then(function(quizes) {
+	var whereClause = {};
+	
+	if (req.query.search) {
+		var search = '%' + req.query.search.replace(/[ ]+/g, '%') + '%';
+		whereClause = {
+			where: ["pregunta LIKE ?", search ],
+			order: 'pregunta ASC'
+		};
+	}
+	
+	models.Quiz.findAll(whereClause).then(function(quizes) {
 		res.render('quizes/index', {
 			quizes : quizes
 		});
