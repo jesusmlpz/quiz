@@ -42,9 +42,9 @@ var Quiz = sequelize.import(path.join(__dirname, 'quiz'));
 exports.Quiz = Quiz;
 
 // Inicializar todas las tablas de la BD
-sequelize.sync().success(function() {
+sequelize.sync().then(function() {
 	// Crear un registro si la tabla está vacía
-	Quiz.count().success(function(count) {
+	Quiz.count().then(function(count) {
 		if (count === 0) {
 			Quiz.create({ pregunta : 'Capital de Italia', respuesta : 'Roma'});
 			Quiz.create({ pregunta : 'Capital de Portugal', respuesta : 'Lisboa'})
