@@ -1,10 +1,8 @@
 <label for="preg" class="rem">Pregunta:</label>
-<input type="text" id="preg" name="quiz[pregunta]" placeholder="<%= quiz.pregunta %>"
-    <% if (errors.length) { %> value="<%= quiz.pregunta %>" <% } %> />
+<input type="text" id="preg" name="quiz[pregunta]" value="<%= quiz.pregunta %>" />
 <br />
 <label for="resp" class="rem">Respuesta:</label>
-<input type="text" id="resp" name="quiz[respuesta]" placeholder="<%= quiz.respuesta %>"
-    <% if (errors.length) { %> value="<%= quiz.respuesta %>" <% } %> />
+<input type="text" id="resp" name="quiz[respuesta]" value="<%= quiz.respuesta %>" />
 <br />
 <a href="/quizes"><button type="button">Cancelar</button></a>
 <input type="submit" value="Salvar"/>
