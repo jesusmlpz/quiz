@@ -12,7 +12,7 @@ h2 span, section h3 {
 body {
 	font-size: xx-large;
 }
-footer, input {
+footer, input, button {
 	font-size: large;
 }
 #foto {
@@ -23,4 +23,7 @@ footer, input {
 	float:none;
 	margin:0px;
 	font-size: large;
+}
+.rem {
+	display: none;
 }
