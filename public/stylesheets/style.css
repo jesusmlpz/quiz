@@ -21,7 +21,7 @@ section > div {
 	padding: 20px;
 }
 
-section > table {
+section > div > table {
 	margin-left: auto;
     margin-right: auto;
     border: thin solid gray;
@@ -67,4 +67,8 @@ dt {
 	padding-left: 10px;
 	text-align: left;
 	min-height: 50px;
+}
+#ErrorMsgs {
+	color: #f61;
+	font-size: smaller;
 }

@@ -27,14 +27,15 @@ exports.index = function(req, res) {
 	if (req.query.search) {
 		var search = '%' + req.query.search.replace(/[ ]+/g, '%') + '%';
 		whereClause = {
-			where : ["pregunta LIKE ?", search],
-			order : 'pregunta ASC'
+			where: ["pregunta LIKE ?", search],
+			order: 'pregunta ASC'
 		};
 	}
 
 	models.Quiz.findAll(whereClause).then(function(quizes) {
 		res.render('quizes/index', {
-			quizes : quizes
+			quizes: quizes,
+			errors: []
 		});
 	});
 };
@@ -43,7 +44,8 @@ exports.index = function(req, res) {
 
 exports.show = function(req, res) {
 	res.render('quizes/show', {
-		quiz : req.quiz
+		quiz : req.quiz,
+		errors : []
 	});
 };
 
@@ -58,7 +60,8 @@ exports.answer = function(req, res) {
 
 	res.render('quizes/answer', {
 		quiz : req.quiz,
-		respuesta : resultado
+		respuesta : resultado,
+		errors : []
 	});
 };
 
@@ -72,7 +75,8 @@ exports.new = function(req, res) {
 	});
 
 	res.render('quizes/new', {
-		quiz : quiz
+		quiz : quiz,
+		errors : []
 	});
 };
 
@@ -80,13 +84,32 @@ exports.new = function(req, res) {
 
 exports.create = function(req, res) {
 	var quiz = models.Quiz.build(req.body.quiz);
-	// guardar los campos pregunta y respuesta de quiz en la BD
-	quiz.save({
-		fields: ['pregunta', 'respuesta']
-	}).then(function() {
-		res.redirect('/quizes');
-	});
-	//res.redirect('/quizes');
+
+	// Validar los campos introducidos
+
+	//quiz.validate().then(function(err) {
+	err = quiz.validate();
+	
+	if (err) {
+		var j = 0;
+		var errors = [];
+		
+		for (var i in err) {
+			errors[j++] = err[i];
+		}
+		res.render('quizes/new', {
+			quiz : quiz,
+			errors : errors
+		});
+	} else {
+		// guardar los campos pregunta y respuesta de quiz en la BD
+		quiz.save({
+			fields : ['pregunta', 'respuesta']
+		}).then(function() {
+			res.redirect('/quizes');
+		});
+	};
+	//});
 };
 
 // GET /author
@@ -95,7 +118,8 @@ exports.author = function(req, res) {
 	res.render('author', {
 		nombre : ['Jesús M. López', 'Lobo'],
 		ciudad : ['Valencia', 'Valencia'],
-		foto : ['/images/foto.jpeg', '/images/Lobo.jpeg']
+		foto : ['/images/foto.jpeg', '/images/Lobo.jpeg'],
+		errors : []
 	});
 };
 
