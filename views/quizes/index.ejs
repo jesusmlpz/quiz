@@ -4,7 +4,8 @@
 <table>
     <% for(var i = 0; i < quizes.length; i++) { %>
     <tr>
-        <td><a href="/quizes/<%- quizes[i].id %>"><%= quizes[i].pregunta %></a></td>
+        <td style="text-align: left"><a href="/quizes/<%- quizes[i].id %>"><%= quizes[i].pregunta %></a></td>
+        <td style="text-align: left">(<%= quizes[i].tema %>)</td>
         <td><a href="/quizes/<%- quizes[i].id %>/edit"><button>Editar</button></a></td>
         <td>
             <form method="post" action="/quizes/<%- quizes[i].id %>?_method=delete">
