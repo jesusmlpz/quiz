@@ -7,7 +7,14 @@ var models = require('../models/models.js');
 
 // Autoload: si la ruta incluye quizId acceder a la Base de Datos
 exports.load = function(req, res, next, quizId) {
-	models.Quiz.find(quizId).then(function(quiz) {
+	models.Quiz.find({
+		where : {
+			id : Number(quizId)
+		},
+		include : [{
+			model : models.Comment
+		}]	
+	}).then(function(quiz) {
 		if (quiz) {
 			req.quiz = quiz;
 			next();
@@ -72,7 +79,7 @@ exports.new = function(req, res) {
 	{
 		pregunta : 'Pregunta',
 		respuesta : 'Respuesta',
-		tema: 'otro'
+		tema : 'otro'
 	});
 
 	res.render('quizes/new', {
@@ -144,16 +151,21 @@ exports.update = function(req, res) {
 			errors : errors
 		});
 	} else {
-		req.quiz.save({fields: ['pregunta','respuesta','tema']})
-		.then(function(){res.redirect('/quizes');});
+		req.quiz.save({
+			fields : ['pregunta', 'respuesta', 'tema']
+		}).then(function() {
+			res.redirect('/quizes');
+		});
 	};
 };
 
 // DELETE /quizes/:quizId
 exports.destroy = function(req, res) {
-	req.quiz.destroy().then(function(){
+	req.quiz.destroy().then(function() {
 		res.redirect('/quizes');
-	}).catch(function(error){next(error);});
+	}).catch(function(error) {
+		next(error);
+	});
 };
 
 // GET /author
