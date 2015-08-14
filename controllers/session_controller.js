@@ -32,6 +32,15 @@ exports.create = function(req, res) {
 	});	
 };
 
+// Comprobar que hay sesión activa
+exports.loginRequired = function(req, res, next) {
+	if (req.session.user) {
+		next();
+	} else {
+		res.redirect('/login');
+	};
+};
+
 // Cerrar sesión
 exports.destroy = function(req, res) {
 	delete req.session.user;
