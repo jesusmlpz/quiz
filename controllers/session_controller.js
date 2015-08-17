@@ -28,7 +28,9 @@ exports.create = function(req, res) {
 		// La sesión se define por la existencia de req.session.user
 		req.session.user = {id: user.id, username: user.username};
 		
-		res.redirect(req.session.redir.toString());	// redireccionar a la vista anterior al login
+//		res.redirect(req.session.redir.toString());	// redireccionar a la vista anterior al login
+		console.log('req.app.locals.redir: '+JSON.stringify(req.app.locals.redir));
+		res.redirect(req.app.locals.redir.toString());	// redireccionar a la vista anterior al login
 	});	
 };
 
@@ -45,6 +47,8 @@ exports.loginRequired = function(req, res, next) {
 exports.destroy = function(req, res) {
 	delete req.session.user;
 	
-	res.redirect(req.session.redir.toString());	// redireccionar a la vista anterior al logout
+//	res.redirect(req.session.redir.toString());	// redireccionar a la vista anterior al logout
+	console.log('req.app.locals.redir: '+JSON.stringify(req.app.locals.redir));
+	res.redirect(req.app.locals.redir.toString());	// redireccionar a la vista anterior al logout
 
 };

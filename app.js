@@ -23,7 +23,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser('Quiz-2015'));
-app.use(session());
+app.use(session({cookie: {maxAge: 120000}}));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -31,11 +31,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(function(req, res, next) {
 	// guardar path en session.redir para después del login
 	if (!req.path.match(/\/login|\/logout/)) {
-		req.session.redir = req.path;
+//		req.session.redir = req.path;
+		app.locals.redir = req.path;
+		console.log('app.locals.redir: '+JSON.stringify(app.locals.redir));
+		console.log('req.session: '+JSON.stringify(req.session));
 	}
 	
 	// Hacer visible req.session en las vistas
-	res.locals.session = req.session;
+	res.locals.session = req.session || {};
 	
 	next();
 });
