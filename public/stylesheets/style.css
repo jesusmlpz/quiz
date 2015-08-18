@@ -75,3 +75,6 @@ dt {
 .right {
 	float: right;
 }
+#stats {
+	text-align: right;
+}
