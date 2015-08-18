@@ -32,17 +32,23 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Helpers dinámicos
 
 app.use(function(req, res, next) {
-	if (!!req.session.lastAccess) {
-		var actualDate = Date.now();
-		var elapsedTime = actualDate - req.session.lastAccess;
-		if (elapsedTime > 120000) {
-			delete req.session.user;		// borrar usuario
-			delete req.session.lastAccess;	// borrar timestamp
-			req.session.errors = ['La sesión ha caducado'];
-		} else{
-			req.session.lastAccess = actualDate;
-		};
-	}
+	if (req.session.user) {
+
+		if (req.session.lastAccess) {
+			var actualDate = Date.now();
+			var elapsedTime = actualDate - req.session.lastAccess;
+			if (elapsedTime > 120000) {
+				delete req.session.user;		// borrar usuario
+				delete req.session.lastAccess;	// borrar timestamp
+				req.session.errors = ['La sesión previa ha expirado'];
+			} else {
+				req.session.lastAccess = actualDate;
+			};
+		} else {
+			// Guardar timestamp
+			req.session.lastAccess = Date.now(); 
+		}
+	};
 	next();
 });
 
