@@ -40,7 +40,7 @@ app.use(function(req, res, next) {
 			if (elapsedTime > 120000) {
 				delete req.session.user;		// borrar usuario
 				delete req.session.lastAccess;	// borrar timestamp
-				req.session.errors = ['La sesión previa ha expirado'];
+				req.session.errors = [{message: 'La sesión previa ha expirado'}];
 			} else {
 				req.session.lastAccess = actualDate;
 			};

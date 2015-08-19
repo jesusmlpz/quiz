@@ -6,8 +6,7 @@
 var models = require('../models/models.js');
 
 exports.show = function(req, res) {
-	var whereClause = {};
-	req.statistics = {
+	var statistics = {
 		quizesNum : 0,
 		commentsNum : 0,
 		commentsPerQuiz : 0.0,
@@ -17,48 +16,32 @@ exports.show = function(req, res) {
 	
 	// Número de preguntas
 	models.Quiz.count().then(function(c){
-		req.statistics.quizesNum = c;
+		statistics.quizesNum = c;
 	}).catch(function(error) {
-		console.log("Error contando Quizes: " + JSON.stringify(error));
 		res.redirect(req.session.redir.toString());	// redireccionar a la vista anterior
 	});
 	
 	// Número de comentarios
 	models.Comment.count().then(function(c){
-		req.statistics.commentsNum = c;
+		statistics.commentsNum = c;
 		// Número medio de comentarios por pregunta
-		req.statistics.commentsPerQuiz = req.statistics.commentsNum * 1.0 / req.statistics.quizesNum;
+		statistics.commentsPerQuiz = (statistics.commentsNum / statistics.quizesNum).toFixed(1);
 	}).catch(function(error) {
-		console.log("Error contando Comments: " + JSON.stringify(error));
 		res.redirect(req.session.redir.toString());	// redireccionar a la vista anterior
 	});
 	
-	
-	// Número de preguntas con comentario0
-/*	models.Quiz.count({
-		include: [{
-			model: models.Comment,
-			required: true,
-			attributes: ['QuizId']
-		}],*/
+	// Número de preguntas con comentario
 	models.Comment.count({
-		attributes: ['QuizId'],
 		group: 'QuizId'
-//		distinct: true
-	}).then(function(c) {
-		req.statistics.quizesWithComment = c;
-		req.statistics.quizesWithoutComment = req.statistics.quizesNum - req.statistics.quizesWithComment;
-		console.log('statistics=' + JSON.stringify(req.statistics));
+	})
+	.then(function(c) {
+		statistics.quizesWithComment = c.length;
+		statistics.quizesWithoutComment = statistics.quizesNum - statistics.quizesWithComment;
 		res.render('quizes/statistics', {
-			quizesNum : req.statistics.quizesNum,
-			commentsNum : req.statistics.commentsNum,
-			commentsPerQuiz : req.statistics.commentsPerQuiz.toFixed(1),
-			quizesWithComment : req.statistics.quizesWithComment,
-			quizesWithoutComment : req.statistics.quizesWithoutComment,
+			statistics: statistics,
 			errors : []
 		});
 	}).catch(function(error) {
-		console.log("Error contando Quizes con Comment: " + JSON.stringify(error));
 		res.redirect(req.session.redir.toString());	// redireccionar a la vista anterior
 	}); 
 

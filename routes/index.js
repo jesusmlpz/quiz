@@ -24,6 +24,8 @@ router.post('/quizes/create', sessionController.loginRequired, quizController.cr
 router.get('/quizes/:quizId(\\d+)/edit', sessionController.loginRequired, quizController.edit);
 router.put('/quizes/:quizId(\\d+)', sessionController.loginRequired, quizController.update);
 router.delete('/quizes/:quizId(\\d+)', sessionController.loginRequired, quizController.destroy);
+// Ruta de control de estadísticas
+router.get('/quizes/statistics', statisticsController.show);
 
 // Definición de rutas de comentarios
 router.get('/quizes/:quizId(\\d+)/comment/new', commentController.new);
@@ -34,9 +36,6 @@ router.put('/quizes/:quizId(\\d+)/comment/:commentId(\\d+)', sessionController.l
 router.get('/login', sessionController.new);		// formulario de login
 router.post('/login', sessionController.create);	// crear sesión
 router.get('/logout', sessionController.destroy);	// cerrar sesión
-
-// Ruta de control de estadísticas
-router.get('/quizes/statistics', statisticsController.show);
 
 router.get('/author', quizController.author);
 

@@ -5,7 +5,7 @@
 // Formulario de login
 exports.new = function(req, res) {
 	var errors = req.session.errors || [];
-	req.session.errors = {};
+	req.session.errors = [{}];
 	 
 	res.render('sessions/new', {errors: errors});
 };
@@ -19,7 +19,7 @@ exports.create = function(req, res) {
 	userController.autenticar(login, password, function(error, user) {
 		if (error) {
 			//req.session.errors = [{message: 'Se ha producido un error: '+error.message}];
-			req.session.errors = ['Se ha producido un error: '+error.message];
+			req.session.errors = [{message: 'Se ha producido un error: '+error.message}];
 			res.redirect('/login');
 			return;
 		};

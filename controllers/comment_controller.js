@@ -37,29 +37,22 @@ exports.create = function(req, res) {
 	});
 
 	// Validar los campos introducidos
-
-	err = comment.validate();
-
-	if (err) {
-		var j = 0;
-		var errors = [];
-
-		for (var i in err) {
-			errors[j++] = err[i];
+	comment.validate()
+	.then(
+		function(err) {
+			if (err) {
+				res.render('comments/new', {
+					comment : comment,
+					quizId : req.params.quizId,
+					errors : err.errors
+					});
+			} else{
+				// guardar los campos pregunta y respuesta de quiz en la BD
+				comment.save()
+				.then(function() {res.redirect('/quizes/' + req.params.quizId);});
+			};
 		}
-		res.render('comments/new', {
-			comment : comment,
-			quizId : req.params.quizId,
-			errors : errors
-		});
-	} else {
-		// guardar los campos pregunta y respuesta de quiz en la BD
-		comment
-		.save()
-		.then(function() {
-			res.redirect('/quizes/' + req.params.quizId);
-		});
-	};
+	);
 };
 
 // Publicar comentario
