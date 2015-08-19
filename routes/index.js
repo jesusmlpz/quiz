@@ -8,7 +8,8 @@ var statisticsController = require('../controllers/statistics_controller');
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  res.render('index', { title: 'Quiz', errors: [] });
+	var errors = req.session.errors || [];
+	res.render('index', { title: 'Quiz', errors: errors });
 });
 
 // Autoload de comandos con quizId

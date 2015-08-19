@@ -18,7 +18,9 @@ exports.show = function(req, res) {
 	models.Quiz.count().then(function(c){
 		statistics.quizesNum = c;
 	}).catch(function(error) {
-		res.redirect(req.session.redir.toString());	// redireccionar a la vista anterior
+		req.session.errors = [error];
+		res.redirect('/');
+//		res.redirect(req.session.redir.toString());	// redireccionar a la vista anterior
 	});
 	
 	// Número de comentarios
@@ -27,12 +29,14 @@ exports.show = function(req, res) {
 		// Número medio de comentarios por pregunta
 		statistics.commentsPerQuiz = (statistics.commentsNum / statistics.quizesNum).toFixed(1);
 	}).catch(function(error) {
-		res.redirect(req.session.redir.toString());	// redireccionar a la vista anterior
+		req.session.errors = [error];
+		res.redirect('/');
+//		res.redirect(req.session.redir.toString());	// redireccionar a la vista anterior
 	});
 	
 	// Número de preguntas con comentario
 	models.Comment.count({
-		group: 'QuizId'
+		group: '"QuizId"'
 	})
 	.then(function(c) {
 		statistics.quizesWithComment = c.length;
@@ -42,7 +46,9 @@ exports.show = function(req, res) {
 			errors : []
 		});
 	}).catch(function(error) {
-		res.redirect(req.session.redir.toString());	// redireccionar a la vista anterior
+		req.session.errors = [error];
+		res.redirect('/');
+//		res.redirect(req.session.redir.toString());	// redireccionar a la vista anterior
 	}); 
 
 };

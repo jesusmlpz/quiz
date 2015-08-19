@@ -5,7 +5,7 @@
 // Formulario de login
 exports.new = function(req, res) {
 	var errors = req.session.errors || [];
-	req.session.errors = [{}];
+	req.session.errors = [];
 	 
 	res.render('sessions/new', {errors: errors});
 };
@@ -28,7 +28,7 @@ exports.create = function(req, res) {
 		// La sesión se define por la existencia de req.session.user
 		req.session.user = {id: user.id, username: user.username};
 		
-		res.redirect(req.session.redir.toString());	// redireccionar a la vista anterior al login
+		res.redirect(req.session.redir ? req.session.redir.toString() : '/');	// redireccionar a la vista anterior al login
 	});	
 };
 
@@ -46,6 +46,6 @@ exports.destroy = function(req, res) {
 	delete req.session.user;
 	delete req.session.lastAccess;	// borrar timestamp
 	
-	res.redirect(req.session.redir.toString());	// redireccionar a la vista anterior al logout
+	res.redirect(req.session.redir ? req.session.redir.toString() : '/');	// redireccionar a la vista anterior al logout
 
 };
